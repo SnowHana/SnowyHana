@@ -9,5 +9,5 @@ This is a space where I cultivate thoughts, keep records of my progress (both pe
 # Projects
 These are projects I am currently working on!
 
-[[Gplan]] : Python based program to make train station shift planning easier.
+[[G-Plan]]: Python based program to make train station shift planning easier.
 
