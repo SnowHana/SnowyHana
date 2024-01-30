@@ -1,9 +1,9 @@
 ---
-title: Welcome to Quartz
+title: Snowy Garden
 ---
 
-This is a blank Quartz installation.
-See the [documentation](https://quartz.jzhao.xyz) for how to get started.
+Welcome to my :snowflake: garden!
+This is a space where I cultivate thoughts, keep records of my progress (both personal and career-wise!)
 
 ---
 # Projects
