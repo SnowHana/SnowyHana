@@ -11,3 +11,7 @@ These are projects I am currently working on!
 
 [[G-Plan]]: Python based program to make train station shift planning easier.
 
+---
+# Study
+[[Drunk Passenger Problem]]
+
