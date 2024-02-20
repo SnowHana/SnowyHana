@@ -38,13 +38,128 @@ Hamed Jafari1 •Nasser Salmasi), and decided to adapt a random-swap method.
 
 ## Random-Swap Algorithm
 1. Start with an obvious feasible solution, by allocating DNOB repeatedly starting from first worker.
-2. Then, randomly swap two shifts between a worker (ie. Horizontal Swap)
+2. Then, iterate through worker, and randomly swap two shifts between a single worker (ie. Horizontal Swap)
 3. After finishing swap, *fix* the shift whenever it's broken. 
 	1. For example, D N O B D N O B was swapped to  D N N O B D O B , and it should be fixed to D N O B N O B D.
 4. Calculate weight scores of before_swap, after_swap and discard the one with higher score.
 5. Repeat this process for certain iteration.
+Note that, the fixing process is done after swap process is done for all the workers. 
 
+### Code
+```python
+def swap_shift(base_shift: pd.DataFrame) -> pd.DataFrame:
+
+"""Swap shifts between workers or swap one's shift with himself
+
+to generate a *better* shift
+
+  
+
+Args:
+
+shifts_df (pd.DataFrame): _description_
+
+  
+
+Returns:
+
+pd.DataFrame: _description_
+
+"""
+
+df = base_shift.copy(deep=True)
+
+rows, cols = df.shape
+
+
+for worker in df.index.tolist():
+
+mask_D = df.loc[worker] == "D"
+
+mask_N = df.loc[worker] == "N"
+
+  
+
+# We want to randomly swap Day and Night
+
+  
+
+# Assumption: every person takes equal amount of night and day shift... (Number of night, day shift is fixed)
+
+# Swap shifts. btw person (ie. Horizontal Random Swap between day and night shift)
+
+
+day_data = get_shift_type_columns("D", df)
+
+night_data = get_shift_type_columns("N", df)
+
+# Iterate through workers
+
+swapped_df = df.copy(deep=True)
+
+  
+
+for worker in swapped_df.index.tolist():
+
+# Randomly swap two shifts
+
+random_day = random.choice(day_data[worker])
+
+random_night = random.choice(night_data[worker])
+
+# D N O B -> N O B D
+
+swapped_df = swap_two_shifts(
+
+swapped_df,
+
+random_day,
+
+random_night,
+
+worker,
+
+)
+
+# And then add O and B, except last days....  
+
+# Not valid smh, N D , N N -> Push back everything insert O B?
+
+swapped_df = fix_night_shifts(swapped_df)
+
+assert is_valid_night(swapped_df), "Uhm night shift is still not valid,..."
+
+assert is_valid_shift(
+
+swapped_df
+
+), f"Shift is not valid (at least one person for night and day shift\n {swapped_df}"
+  
+
+return swapped_df
+```
 ### Benefits
 This algorithm is better for few reasons.
 
-First, it's **guaranteed** to work! This is because we start from a possible, most basic shift and fix it whenever it's broken. So no matter which shift we swap, it is guaranteed to work.
+First, it's **guaranteed** to work! ~~(Later on, I found out that this is not always true....)~~ This is because we start from a possible, most basic shift and fix it whenever it's broken. So no matter which shift we swap, it is guaranteed to work.
+
+### Issues...
+So random swap algorithm has issues. Most obvious one right now is that our final solution can be not feasible!
+
+![[Screenshot 2024-02-20 at 4.54.21 PM.png]]
+As you can see, on day 2, there is no worker assigned for a Day shift. This can be fixed in following ways.
+1. Discard *swap* if it breaks our requirement (ie. Breaking min 1 worker per shift rule.)
+2. Instead of vertical swap, swap between workers.
+3. Add an auto-correction functionality
+
+#### Soln 1. Discard swap if it breaks our req.
+This is the most obvious, and easiest solution, but it can be problematic. We might be stuck, and this significantly reduces our *searching space* as well....
+
+
+#### Soln 2. Instead of vertical swap, swap between workers.
+This approach is the approach that will guarantee our result always being feasible. 
+
+
+#### Soln 3. Auto-correction functionality.
+
+---
