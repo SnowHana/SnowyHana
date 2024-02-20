@@ -1,5 +1,6 @@
 ---
 title: 1. Introduction
+date: 2023-02-20
 ---
 - Make a weight function (To measure how *optimal* our schedule is)
 - Make a graph to visualise the weight function
