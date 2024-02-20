@@ -4,7 +4,7 @@ tags:
   - project
 ---
 
-[[Gplan w1]]
+[[Gplan - 1]]
 
 # Motivation
 Yep...
