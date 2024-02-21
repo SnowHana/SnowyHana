@@ -1,7 +1,9 @@
 ---
-title: 1. Introduction
+title: 1. Introduction and basics
 date: 2023-02-20
 ---
+[[GPlan-2]]
+
 - Make a weight function (To measure how *optimal* our schedule is)
 - Make a graph to visualise the weight function
 
@@ -143,23 +145,3 @@ This algorithm is better for few reasons.
 
 First, it's **guaranteed** to work! ~~(Later on, I found out that this is not always true....)~~ This is because we start from a possible, most basic shift and fix it whenever it's broken. So no matter which shift we swap, it is guaranteed to work.
 
-### Issues...
-So random swap algorithm has issues. Most obvious one right now is that our final solution can be not feasible!
-
-![[Screenshot 2024-02-20 at 4.54.21 PM.png]]
-As you can see, on day 2, there is no worker assigned for a Day shift. This can be fixed in following ways.
-1. Discard *swap* if it breaks our requirement (ie. Breaking min 1 worker per shift rule.)
-2. Instead of vertical swap, swap between workers.
-3. Add an auto-correction functionality
-
-#### Soln 1. Discard swap if it breaks our req.
-This is the most obvious, and easiest solution, but it can be problematic. We might be stuck, and this significantly reduces our *searching space* as well....
-
-
-#### Soln 2. Instead of vertical swap, swap between workers.
-This approach is the approach that will guarantee our result always being feasible. 
-
-
-#### Soln 3. Auto-correction functionality.
-
----
